@@ -1,0 +1,19 @@
+-- create new temporary table and left join market segment and meal tables to hotel data
+WITH hotel_data
+AS (SELECT *
+    FROM dbo.['2018$']
+    UNION
+    SELECT *
+    FROM dbo.['2019$']
+    UNION
+    SELECT *
+    FROM dbo.['2020$']
+   )
+
+-- join market segment table and meal cost table to hotel data table
+SELECT *
+FROM hotel_data
+    left join dbo.market_segment$
+        on hotel_data.market_segment = market_segment$.market_segment
+    left join dbo.meal_cost$
+        on meal_cost$.meal = hotel_data.meal
