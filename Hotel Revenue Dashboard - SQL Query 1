@@ -1,0 +1,19 @@
+-- select all yearly tables and append into a new, temporary table
+WITH hotel_data
+AS (SELECT *
+    FROM dbo.['2018$']
+    UNION
+    SELECT *
+    FROM dbo.['2019$']
+    UNION
+    SELECT *
+    FROM dbo.['2020$']
+   )
+
+-- calculate total revenue, rename column, and then use group by
+SELECT hotel,
+       arrival_date_year,
+       ROUND(SUM((stays_in_week_nights + stays_in_weekend_nights) * adr), 2) AS revenue
+FROM hotel_data
+GROUP BY hotel,
+         arrival_date_year
